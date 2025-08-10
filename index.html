@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Orbitron:wght@400;700&display=swap');
+        
+        /* --- Variabel Warna & Mode Terang/Gelap --- */
         :root {
             --bg-color: #0d1117;
             --text-color: #c9d1d9;
@@ -18,17 +20,22 @@
             --tools-color: #fca311; /* Warna untuk tombol tools (oranye) */
             --header-bg-color: rgba(13, 17, 23, 0.8);
             --header-text-color: var(--text-color);
+            --border-color: #30363d;
         }
+
         body.light-mode {
             --bg-color: #f0f2f5;
             --text-color: #333;
             --primary-color: #007bff;
             --secondary-color: #6c757d;
             --card-bg: #ffffff;
-            --tools-color: #e67e22; /* Warna oranye yang lebih terang */
+            --tools-color: #e67e22;
             --header-bg-color: rgba(255, 255, 255, 0.9);
-            --header-text-color: #333; /* Teks gelap untuk kontras di light mode */
+            --header-text-color: #333;
+            --border-color: #dee2e6;
         }
+
+        /* --- Gaya Dasar --- */
         * {
             margin: 0;
             padding: 0;
@@ -36,6 +43,7 @@
             font-family: 'Poppins', sans-serif;
             color: var(--text-color);
         }
+
         body {
             background-color: var(--bg-color);
             line-height: 1.6;
@@ -44,6 +52,8 @@
             display: flex;
             flex-direction: column;
         }
+
+        /* --- Layar Loading --- */
         .loading-screen {
             position: fixed;
             top: 0;
@@ -59,6 +69,7 @@
             z-index: 1000;
             transition: opacity 1s ease, visibility 1s ease;
         }
+
         .loading-battery {
             width: 150px;
             height: 80px;
@@ -71,6 +82,7 @@
             align-items: center;
             overflow: hidden;
         }
+
         .loading-battery::before {
             content: '';
             position: absolute;
@@ -82,12 +94,14 @@
             background: var(--primary-color);
             border-radius: 4px;
         }
+
         .battery-fill {
             width: 0;
             height: 100%;
             background: linear-gradient(90deg, #16a085, #27ae60);
             transition: width 0.5s linear;
         }
+
         .loading-text {
             font-family: 'Orbitron', sans-serif;
             font-size: 2em;
@@ -97,6 +111,7 @@
             display: block;
             margin-bottom: 10px;
         }
+        
         .typing-effect {
             display: inline-block;
             white-space: nowrap;
@@ -104,51 +119,51 @@
             border-right: 2px solid var(--primary-color);
             animation: typing 3s steps(40, end), blink-caret .75s step-end infinite;
         }
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-        @keyframes blink-caret {
-            from, to { border-color: transparent; }
-            50% { border-color: var(--primary-color); }
-        }
+
+        @keyframes typing { from { width: 0; } to { width: 100%; } }
+        @keyframes blink-caret { from, to { border-color: transparent; } 50% { border-color: var(--primary-color); } }
+
+        /* --- Dashboard Utama --- */
         .dashboard {
             display: none;
             flex-direction: column;
             min-height: 100vh;
         }
+
         header {
             width: 100%;
             padding: 20px 5%;
-            background: var(--header-bg-color); /* Menggunakan variabel CSS */
+            background: var(--header-bg-color);
             backdrop-filter: blur(5px);
             position: sticky;
             top: 0;
-            left: 0;
             z-index: 50;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
             transition: background 0.5s ease;
         }
+
         .header-group {
             display: flex;
             align-items: center;
         }
+
         .header-logo {
             height: 40px;
             width: auto;
             margin-right: 15px;
         }
+
         .header-group span {
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
             font-size: 1.2em;
-            margin-right: 30px;
-            color: var(--header-text-color); /* Menggunakan variabel CSS */
+            color: var(--header-text-color);
             transition: color 0.5s ease;
         }
+
         .content {
             padding: 50px 5%;
             flex-grow: 1;
@@ -156,17 +171,18 @@
             flex-direction: column;
             align-items: center;
         }
+
         .card {
             width: 100%;
             max-width: 800px;
             background: var(--card-bg);
-            border: 1px solid #30363d;
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 40px;
             margin-bottom: 40px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
         }
+
         .card h2 {
             font-family: 'Orbitron', sans-serif;
             font-size: 2em;
@@ -174,279 +190,37 @@
             border-left: 4px solid var(--primary-color);
             padding-left: 15px;
         }
+
         .profile-container {
             display: flex;
             align-items: center;
             gap: 40px;
         }
+
         .profile-photo {
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            background: #30363d;
             object-fit: cover;
             border: 4px solid var(--primary-color);
         }
+
         .profile-details p {
             margin: 5px 0;
         }
-        .qr-codes-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 40px;
-        }
-        .qr-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            position: relative;
-        }
-        .qr-code {
-            width: 180px;
-            height: 180px;
-            background: #21262d;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 2px solid var(--secondary-color);
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            position: relative;
-            overflow: hidden; /* Penting untuk blur overlay */
-        }
-        .qr-code:hover {
-            transform: scale(1.05);
-        }
-        .qr-code img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            transition: filter 0.5s ease;
-        }
-        .qr-code.blurred img {
-            filter: blur(10px);
-        }
-        .qr-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 8px;
-            opacity: 3; /* Default to visible */
-            visibility: visible;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        .qr-overlay-text {
-            color: #ff4d4f;
-            font-weight: 700;
-            font-size: 1.2em;
-            text-align: center;
-        }
-        /* --- Pop-up styles --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
-            backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background: var(--card-bg);
-            border: 1px solid #30363d;
-            padding: 40px 60px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            max-width: 400px;
-            width: 90%;
-        }
-        .modal-content h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5em;
-            margin-bottom: 20px;
-            color: var(--primary-color);
-        }
-        .modal-content input {
-            width: 100%;
-            padding: 15px;
-            background-color: #21262d;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            color: var(--text-color);
-            font-size: 1em;
-            outline: none;
-            margin-bottom: 20px;
-            text-align: center;
-            letter-spacing: 2px;
-        }
-        .modal-content input:focus {
-            border-color: var(--primary-color);
-        }
-        .modal-buttons {
-            display: flex;
-            justify-content: space-between;
-        }
-        .modal-buttons button {
-            width: 48%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        #modal-ok {
-            background-color: var(--primary-color);
-            color: var(--bg-color);
-            font-weight: 600;
-        }
-        #modal-ok:hover {
-            background-color: #79c0ff;
-        }
-        #modal-cancel {
-            background-color: #30363d;
-            color: var(--text-color);
-            font-weight: 600;
-        }
-        #modal-cancel:hover {
-            background-color: #404852;
-        }
-
-        /* --- Footer styles --- */
-        footer {
-            position: fixed; /* Membuat footer tetap pada posisi */
-            bottom: 0;
-            width: 100%;
-            background: #0d1117;
-            border-top: 1px solid #30363d;
-            padding: 20px 5%;
-            text-align: center;
-            font-size: 0.9em;
-            z-index: 10;
-        }
-        .footer-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .footer-content span {
-            color: var(--secondary-color);
-        }
-        .footer-content #realtime-clock {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1em;
-            letter-spacing: 1px;
-            color: var(--primary-color);
-        }
-
-        /* --- Floating Button styles --- */
-        .floating-button-container {
-            position: fixed;
-            bottom: 20px;
-            z-index: 999;
-            display: flex;
-            align-items: flex-end; /* Menyelaraskan konten ke bawah untuk dropdown ke atas */
-        }
-        .floating-button {
-            width: 60px;
-            height: 60px;
-            background-color: var(--accent-color);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-            transition: transform 0.3s ease;
-        }
-        .floating-button i {
-            font-size: 2em;
-        }
-        .floating-content {
-            background: var(--card-bg);
-            border: 1px solid #30363d;
-            border-radius: 10px;
-            padding: 15px;
-            white-space: nowrap;
-            overflow: hidden;
-            max-height: 0; /* Untuk efek dropdown ke atas */
-            opacity: 0;
-            transition: max-height 0.3s ease, opacity 0.3s ease;
-            display: flex;
-            flex-direction: column; /* Konten dropdown vertikal */
-            align-items: flex-start;
-        }
-        .floating-content a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            padding: 5px 0;
-        }
-        .floating-content a i {
-            margin-right: 10px;
-            color: var(--primary-color); /* Warna ikon di dropdown */
-        }
-        .floating-button-container.expanded .floating-button {
-            transform: rotate(360deg);
-        }
-        .floating-button-container.expanded .floating-content {
-            max-height: 200px; /* Sesuaikan tinggi maksimum dropdown */
-            opacity: 1;
-            padding-top: 15px; /* Sesuaikan padding untuk efek dropdown */
-            padding-bottom: 15px;
-        }
-        /* Posisi tombol kanan */
-        #call-center-btn-container {
-            right: 20px;
-            flex-direction: row; /* Konten meluas ke kiri tombol */
-        }
-        #call-center-btn-container .floating-content {
-            margin-right: 15px;
-            align-items: flex-end;
-        }
-        #call-center-btn-container .floating-content a i {
-            margin-right: 0;
-            margin-left: 10px;
-        }
-        /* Posisi tombol kiri */
-        #tools-btn-container {
-            left: 20px;
-            flex-direction: row-reverse; /* Konten meluas ke kanan tombol */
-        }
-        #tools-btn-container .floating-content {
-            margin-left: 15px;
-            margin-right: 0;
-            align-items: flex-start;
-        }
-        /* Style khusus untuk tombol tools */
-        .tools-button {
-            background-color: var(--tools-color);
-        }
-        /* Border/Box untuk Biodata */
+        
         .profile-section {
-            border: 1px solid var(--secondary-color);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
             background-color: var(--card-bg);
         }
+        
+        .profile-section:last-child {
+            margin-bottom: 0;
+        }
+        
         .profile-section h3 {
             font-family: 'Orbitron', sans-serif;
             font-size: 1.3em;
@@ -455,8 +229,306 @@
             border-bottom: 2px solid var(--primary-color);
             padding-bottom: 5px;
         }
-        .profile-section .profile-container {
-            margin-top: 15px;
+
+        /* --- QR Code --- */
+        .qr-codes-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .qr-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .qr-code {
+            width: 180px;
+            height: 180px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid var(--secondary-color);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .qr-code:hover {
+            transform: scale(1.05);
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: filter 0.5s ease;
+            background: white; /* Latar belakang putih untuk QR Code */
+        }
+        
+        .qr-code.blurred img {
+            filter: blur(10px);
+        }
+
+        .qr-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .qr-code.blurred .qr-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* --- Pop-up / Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 40px 60px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-content h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            outline: none;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        
+        .modal-content input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .modal-buttons button {
+            width: 48%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
+        }
+
+        #modal-ok { background-color: var(--primary-color); color: var(--bg-color); }
+        #modal-ok:hover { background-color: #79c0ff; }
+        #modal-cancel { background-color: var(--secondary-color); color: var(--text-color); }
+        #modal-cancel:hover { background-color: #404852; }
+        
+        /* --- Footer --- */
+        footer {
+            background: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+            padding: 20px 5%;
+            text-align: center;
+            font-size: 0.9em;
+            width: 100%;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-content span { color: var(--secondary-color); }
+        
+        .footer-content #realtime-clock {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1em;
+            letter-spacing: 1px;
+            color: var(--primary-color);
+        }
+
+        /* --- Floating Buttons --- */
+        .floating-button-container {
+            position: fixed;
+            bottom: 20px;
+            z-index: 999;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .floating-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .floating-button i { font-size: 2em; color: white; }
+
+        .floating-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .floating-content a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            padding: 5px 0;
+            white-space: nowrap;
+        }
+
+        .floating-button-container.expanded .floating-content {
+            max-height: 200px;
+            opacity: 1;
+        }
+        
+        /* Call Center Button (Right) */
+        #call-center-btn-container { right: 20px; flex-direction: row; }
+        #call-center-btn { background-color: var(--accent-color); }
+        #call-center-btn-container .floating-content { margin-right: 15px; }
+        #call-center-btn-container .floating-content a i { margin-right: 10px; color: var(--accent-color); }
+        
+        /* Tools Button (Left) */
+        #tools-btn-container { left: 20px; flex-direction: row-reverse; }
+        #tools-btn { background-color: var(--tools-color); }
+        #tools-btn-container .floating-content { margin-left: 15px; }
+        #tools-btn-container .floating-content a i { margin-right: 10px; color: var(--tools-color); }
+
+        /* --- === MEDIA QUERIES UNTUK RESPONSIVE === --- */
+
+        /* Tampilan Tablet & Mobile (Layar <= 768px) */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+                padding: 15px 5%;
+            }
+
+            .header-group span { font-size: 1em; }
+
+            .content {
+                padding: 25px 5%;
+                padding-bottom: 120px; /* Ruang ekstra untuk footer/tombol */
+            }
+
+            .card {
+                padding: 20px;
+                margin-bottom: 25px;
+            }
+
+            .card h2 { font-size: 1.6em; }
+
+            .profile-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .profile-photo {
+                width: 120px;
+                height: 120px;
+            }
+
+            .qr-codes-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+
+            .modal-content { padding: 30px 25px; }
+
+            footer {
+                position: static; /* Ganti dari fixed ke static di mobile */
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Tampilan Mobile Kecil (Layar <= 480px) */
+        @media (max-width: 480px) {
+            .header-group {
+                width: 100%; /* Agar span bisa di tengah */
+                justify-content: center;
+            }
+             .header-group span { text-align: center; }
+
+             .card h2 { font-size: 1.4em; }
+
+            .profile-photo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .floating-button {
+                width: 55px;
+                height: 55px;
+            }
+            .floating-button i { font-size: 1.8em; }
+            #call-center-btn-container { right: 15px; }
+            #tools-btn-container { left: 15px; }
+            
+            .floating-content a { font-size: 0.9em; }
         }
     </style>
 </head>
@@ -469,18 +541,17 @@
             <span id="text-1" class="typing-effect"></span>
             <span id="text-2" class="typing-effect"></span>
             <span id="text-3" class="typing-effect"></span>
-            <span id="text-4" class="typing-effect"></span>
         </div>
     </div>
 
     <div class="dashboard">
         <header>
             <div class="header-group">
-                <img src="assets/logo.png" alt="Logo" class="header-logo">
+                <img src="assets/logo.png" alt="Logo Bani Saleh" class="header-logo">
                 <span style="color: var(--header-text-color);">UNIVERSITAS BANI SALEH</span>
             </div>
             <div class="header-group">
-                <img src="assets/logo_ua.png" alt="Logo SDIT Ulul Albab" class="header-logo">
+                <img src="assets/logo_ua.png" alt="Logo Ulul Albab" class="header-logo">
                 <span style="color: var(--header-text-color);">SDIT ULUL ALBAB</span>
             </div>
         </header>
@@ -491,10 +562,10 @@
                 <div class="profile-container">
                     <img id="profile-pic" src="pas2.jpg" alt="Foto Profil" class="profile-photo">
                     <div class="profile-details">
-                        <p><strong>Nama:</strong> Muhammad Ikhsan Sidiq </p>
-                        <p><strong>Pekerjaan:</strong> Mahasiswa </p>
+                        <p><strong>Nama:</strong> Muhammad Ikhsan Sidiq</p>
+                        <p><strong>Pekerjaan:</strong> Mahasiswa</p>
                         <p><strong>E-mail:</strong> muhikhsan096@ubs.ac.id</p>
-                        <p><strong>Deskripsi:</strong> Developer </p>
+                        <p><strong>Deskripsi:</strong> Developer</p>
                     </div>
                 </div>
             </div>
@@ -506,12 +577,8 @@
                     <div class="profile-container">
                         <img src="assets/logo.png" alt="Logo Universitas Bani Saleh" class="profile-photo" style="border-color: var(--primary-color);">
                         <div class="profile-details">
-                            <p><strong>Nama Universitas:</strong> Universitas Bani Saleh</p>
-                            <p><strong>Lokasi:</strong> Jl. Mayor M. Hasibuan No 68,
-Margahayu, Bekasi Timur, Kota Bekasi, Jawa Barat 17113</p>
-                            <p><strong>Fakultas Unggulan:</strong> Teknologi Informasi & Digital </p>
-                            <p><strong>Visi:</strong> Menjadi Universitas Unggul yang Islami tahun 2045 </p>
-                            <p><strong>Misi:</strong> Menyelenggarakan tata kelola perguruan tinggi yang baik sesuai standar nasional dan internasional, serta mengelola pendidikan, penelitian, dan pengabdian kepada masyarakat yang berlandaskan nilai-nilai Islam untuk menghasilkan lulusan berakhlak mulia, kompeten, dan berdaya saing, sekaligus berkontribusi dalam pengembangan IPTEK, kebudayaan, serta memperkuat kemitraan nasional dan internasional.</p>
+                            <p><strong>Lokasi:</strong> Jl. Mayor M. Hasibuan No 68, Margahayu, Bekasi Timur, Kota Bekasi, Jawa Barat 17113</p>
+                            <p><strong>Visi:</strong> Menjadi Universitas Unggul yang Islami tahun 2045.</p>
                         </div>
                     </div>
                 </div>
@@ -521,10 +588,8 @@ Margahayu, Bekasi Timur, Kota Bekasi, Jawa Barat 17113</p>
                     <div class="profile-container">
                         <img src="assets/logo_ua.png" alt="Logo SDIT Ulul Albab" class="profile-photo" style="border-color: var(--secondary-color);">
                         <div class="profile-details">
-                            <p><strong>Nama Sekolah:</strong> SDIT Ulul Albab</p>
                             <p><strong>Lokasi:</strong> Jl Tambun-Tambelang KM 4, Desa Sumber Jaya, Kec. Tambun Selatan, Kab. Bekasi</p>
-                            <p><strong>Kurikulum:</strong>  kurikulum DIKNAS dengan mengintegrasikan nilai-nilai Islam di setiap mata pelajaran umum, dan Kurikulum Terpadu yaitu kurikulum yang mendasari khas ilmu-ilmu Syar’i pada mata pelajaran Dieniyah</p>
-                            <p><strong>Fokus Pendidikan:</strong> Program Tahsin dan Tahfidz Al-Qur’an bersanad</p>
+                            <p><strong>Fokus:</strong> Program Tahsin dan Tahfidz Al-Qur’an bersanad.</p>
                         </div>
                     </div>
                 </div>
@@ -535,17 +600,16 @@ Margahayu, Bekasi Timur, Kota Bekasi, Jawa Barat 17113</p>
                 <div class="qr-codes-container">
                     <div class="qr-card">
                         <div class="qr-code blurred" id="admin-qr">
-                            <div class="qr-overlay">
-                            </div>
+                             <div class="qr-overlay"></div>
                             <img src="qrcode-admin.png" alt="QR Code Admin">
                         </div>
-                        <span>Scan untuk download APK Admin</span>
+                        <span>Scan untuk APK Admin</span>
                     </div>
                     <div class="qr-card">
                         <div class="qr-code" id="user-qr">
                             <img src="qrcode-users.jpeg" alt="QR Code User">
                         </div>
-                        <span>Scan untuk download APK Users</span>
+                        <span>Scan untuk APK Users</span>
                     </div>
                 </div>
             </div>
@@ -563,7 +627,7 @@ Margahayu, Bekasi Timur, Kota Bekasi, Jawa Barat 17113</p>
     <div class="modal-overlay" id="verification-modal">
         <div class="modal-content">
             <h3>Masukkan Kode Verifikasi</h3>
-            <input type="password" id="verification-code" placeholder="Kode verifikasi" maxlength="6">
+            <input type="password" id="verification-code" placeholder="••••••" maxlength="6">
             <div class="modal-buttons">
                 <button id="modal-ok">Verifikasi</button>
                 <button id="modal-cancel">Batal</button>
@@ -574,8 +638,7 @@ Margahayu, Bekasi Timur, Kota Bekasi, Jawa Barat 17113</p>
     <div class="floating-button-container" id="call-center-btn-container">
         <div class="floating-content">
             <a href="https://wa.me/6285717733041?text=Halo%20developer%2C%20saya%20punya%20kendala%20mengenai%20website%20ini." target="_blank">
-                <i class="fab fa-whatsapp"></i>
-                Hubungi Developer
+                <i class="fab fa-whatsapp"></i> Hubungi Developer
             </a>
         </div>
         <div class="floating-button" id="call-center-btn">
@@ -587,43 +650,137 @@ Margahayu, Bekasi Timur, Kota Bekasi, Jawa Barat 17113</p>
         <div class="floating-content" id="tools-content">
             <a href="#" id="toggle-theme"><i class="fas fa-adjust"></i> Mode Gelap</a>
         </div>
-        <div class="floating-button tools-button" id="tools-btn">
+        <div class="floating-button" id="tools-btn">
             <i class="fas fa-tools"></i>
         </div>
     </div>
 
     <script>
-        const texts=["PPDB-QU","UNIVERSITAS BANI SALEH","SDIT ULUL ALBAB"];
-        const elements=[document.getElementById('text-1'),document.getElementById('text-2'),document.getElementById('text-3'),document.getElementById('text-4')];
-        const batteryFill=document.querySelector('.battery-fill');
-        const loadingScreen=document.querySelector('.loading-screen');
-        const dashboard=document.querySelector('.dashboard');
-        const adminQr=document.getElementById('admin-qr');
-        const verificationModal=document.getElementById('verification-modal');
-        const codeInput=document.getElementById('verification-code');
-        const modalOkBtn=document.getElementById('modal-ok');
-        const modalCancelBtn=document.getElementById('modal-cancel');
-        const callCenterBtn=document.getElementById('call-center-btn');
-        const callCenterBtnContainer=document.getElementById('call-center-btn-container');
-        const toolsBtnContainer=document.getElementById('tools-btn-container');
-        const toolsBtn=document.getElementById('tools-btn');
-        const toolsContent=document.getElementById('tools-content');
-        const themeToggle=document.getElementById('toggle-theme');
-        const bodyElement=document.body;
-        let isToolsExpanded=false;
-        function typeText(text,element,speed,callback){let i=0;function type(){if(i<text.length){element.innerHTML+=text.charAt(i);i++;setTimeout(type,speed);}else{if(callback)callback();}}type();}
-        let currentTextIndex=0;
-        function animateTexts(){if(currentTextIndex<texts.length){const element=elements[currentTextIndex];element.classList.add('typing-effect');typeText(texts[currentTextIndex],element,100,()=>{element.classList.remove('typing-effect');element.style.borderRight='none';currentTextIndex++;animateTexts();});}}
-        document.addEventListener('DOMContentLoaded',()=>{const batteryInterval=setInterval(()=>{let currentWidth=parseInt(batteryFill.style.width,10);if(currentWidth<100){batteryFill.style.width=(currentWidth+1)+'%';}},50);setTimeout(()=>{animateTexts();},1000);setTimeout(()=>{clearInterval(batteryInterval);loadingScreen.style.opacity='0';loadingScreen.style.visibility='hidden';dashboard.style.display='flex';},6000);});
-        adminQr.addEventListener('click',(event)=>{event.preventDefault();verificationModal.style.display='flex';codeInput.value='';codeInput.focus();});
-        modalOkBtn.addEventListener('click',()=>{const code=codeInput.value;if(code==='311002'){adminQr.classList.remove('blurred');verificationModal.style.display='none';alert("Kode benar! QR Code dapat discan sekarang.");}else{alert("Kode verifikasi salah! Akses ditolak.");codeInput.value='';codeInput.focus();}});
-        modalCancelBtn.addEventListener('click',()=>{verificationModal.style.display='none';});
-        function updateTimeAndDate(){const now=new Date();const optionsDate={weekday:'long',year:'numeric',month:'long',day:'numeric'};const formattedDate=now.toLocaleDateString('id-ID',optionsDate);const formattedTime=now.toLocaleTimeString('id-ID',{timeZone:'Asia/Jakarta'});document.getElementById('realtime-date').textContent=`${formattedDate}`;document.getElementById('realtime-clock').textContent=`${formattedTime} WIB`;}
-        setInterval(updateTimeAndDate,1000);updateTimeAndDate();
-        callCenterBtn.addEventListener('click',()=>{callCenterBtnContainer.classList.toggle('expanded');});
-        toolsBtn.addEventListener('click',()=>{toolsBtnContainer.classList.toggle('expanded');isToolsExpanded=toolsBtnContainer.classList.contains('expanded');});
-        themeToggle.addEventListener('click',(event)=>{event.preventDefault();bodyElement.classList.toggle('light-mode');const isLightMode=bodyElement.classList.contains('light-mode');themeToggle.innerHTML=`<i class="fas fa-adjust"></i> Mode ${isLightMode?'Terang':'Gelap'}`;});
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Elemen DOM ---
+            const loadingScreen = document.querySelector('.loading-screen');
+            const dashboard = document.querySelector('.dashboard');
+            const batteryFill = document.querySelector('.battery-fill');
+            const typingElements = [document.getElementById('text-1'), document.getElementById('text-2'), document.getElementById('text-3')];
+            
+            const adminQr = document.getElementById('admin-qr');
+            const verificationModal = document.getElementById('verification-modal');
+            const codeInput = document.getElementById('verification-code');
+            const modalOkBtn = document.getElementById('modal-ok');
+            const modalCancelBtn = document.getElementById('modal-cancel');
+
+            const callCenterBtnContainer = document.getElementById('call-center-btn-container');
+            const toolsBtnContainer = document.getElementById('tools-btn-container');
+            const themeToggle = document.getElementById('toggle-theme');
+            const bodyElement = document.body;
+
+            // --- Logika Loading Screen ---
+            const texts = ["PPDB-QU", "UNIVERSITAS BANI SALEH", "SDIT ULUL ALBAB"];
+            let textIndex = 0;
+            let charIndex = 0;
+
+            function typeWriter() {
+                if (textIndex < texts.length) {
+                    const currentText = texts[textIndex];
+                    const currentElement = typingElements[textIndex];
+                    if (charIndex < currentText.length) {
+                        currentElement.innerHTML += currentText.charAt(charIndex);
+                        charIndex++;
+                        setTimeout(typeWriter, 80);
+                    } else {
+                        textIndex++;
+                        charIndex = 0;
+                        setTimeout(typeWriter, 500);
+                    }
+                }
+            }
+
+            const batteryInterval = setInterval(() => {
+                let currentWidth = parseInt(batteryFill.style.width, 10);
+                if (currentWidth < 100) {
+                    batteryFill.style.width = (currentWidth + 1) + '%';
+                } else {
+                    clearInterval(batteryInterval);
+                }
+            }, 50);
+
+            setTimeout(typeWriter, 1000);
+
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.visibility = 'hidden';
+                dashboard.style.display = 'flex';
+            }, 6000);
+
+            // --- Logika Modal Verifikasi QR Code ---
+            adminQr.addEventListener('click', (event) => {
+                event.preventDefault();
+                if (adminQr.classList.contains('blurred')) {
+                    verificationModal.style.display = 'flex';
+                    codeInput.value = '';
+                    codeInput.focus();
+                }
+            });
+
+            modalOkBtn.addEventListener('click', () => {
+                if (codeInput.value === '311002') {
+                    adminQr.classList.remove('blurred');
+                    verificationModal.style.display = 'none';
+                    alert("Verifikasi berhasil! QR Code dapat discan.");
+                } else {
+                    alert("Kode verifikasi salah!");
+                    codeInput.focus();
+                }
+            });
+
+            modalCancelBtn.addEventListener('click', () => {
+                verificationModal.style.display = 'none';
+            });
+            
+            verificationModal.addEventListener('click', (e) => {
+                 if(e.target === verificationModal) {
+                    verificationModal.style.display = 'none';
+                 }
+            });
+
+            // --- Jam & Tanggal Real-time ---
+            function updateTimeAndDate() {
+                const now = new Date();
+                const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Jakarta', hour12: false };
+                
+                document.getElementById('realtime-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
+                document.getElementById('realtime-clock').textContent = `${now.toLocaleTimeString('id-ID', timeOptions)} WIB`;
+            }
+            setInterval(updateTimeAndDate, 1000);
+            updateTimeAndDate();
+
+            // --- Logika Tombol Melayang (Floating Buttons) ---
+            document.getElementById('call-center-btn').addEventListener('click', () => {
+                callCenterBtnContainer.classList.toggle('expanded');
+            });
+            
+            document.getElementById('tools-btn').addEventListener('click', () => {
+                toolsBtnContainer.classList.toggle('expanded');
+            });
+
+            // --- Logika Ganti Tema (Theme Toggler) ---
+            themeToggle.addEventListener('click', (event) => {
+                event.preventDefault();
+                bodyElement.classList.toggle('light-mode');
+                
+                const isLightMode = bodyElement.classList.contains('light-mode');
+                localStorage.setItem('theme', isLightMode ? 'light' : 'dark'); // Simpan pilihan tema
+                
+                themeToggle.innerHTML = `<i class="fas fa-adjust"></i> Mode ${isLightMode ? 'Terang' : 'Gelap'}`;
+            });
+            
+            // Memeriksa tema yang tersimpan saat memuat halaman
+            if (localStorage.getItem('theme') === 'light') {
+                bodyElement.classList.add('light-mode');
+                themeToggle.innerHTML = `<i class="fas fa-adjust"></i> Mode Terang`;
+            }
+        });
     </script>
 </body>
-
 </html>
